@@ -1,4 +1,3 @@
-require File.expand_path('../redis_keys', __FILE__)
 require File.expand_path('../../resque-example-app', __FILE__)
 require 'resque/errors'
 require 'open-uri'
