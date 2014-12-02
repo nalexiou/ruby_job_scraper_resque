@@ -3,7 +3,6 @@ Bundler.require(:default)
 require File.expand_path('../lib/response', __FILE__)
 require 'sinatra/redis'
 require 'nokogiri'
-require 'pry'
 
 
 configure do
