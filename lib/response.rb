@@ -16,7 +16,7 @@ require 'net/https'
 
 class Response
   @queue = :response
-  def self.perform(givenurl, limit, method, hashname="")  
+  def self.perform(givenurl, limit, method, hashname, keywords)  
     raise ArgumentError, 'HTTP redirect too deep' if limit == 0
     begin
       @url = URI.parse(givenurl)
@@ -30,8 +30,8 @@ class Response
         )
     end
     case resp
-      when Net::HTTPSuccess     then send(method, resp, givenurl, hashname) 
-      when Net::HTTPRedirection then self.perform(resp['location'], limit - 1, method)
+      when Net::HTTPSuccess     then send(method, resp, givenurl, hashname, keywords) 
+      when Net::HTTPRedirection then self.perform(resp['location'], limit - 1, method, "", "")
       else
         p resp.error!
       end
@@ -39,7 +39,7 @@ class Response
         p e
       end
   end 
-  def self.grabnynytmhiring(resp, givenurl, hashname)
+  def self.grabnynytmhiring(resp, givenurl, hashname, keywords)
     if resp.code.match(/20\d/)
       Nokogiri::HTML(resp.body).css("a").select{|x| x.text == "Hiring"}.each do |y|
         if y['href'] =~ URI::regexp
@@ -53,15 +53,15 @@ class Response
     end
   end
 
-  def self.findjobs(resp, givenurl, hashname)
+  def self.findjobs(resp, givenurl, hashname, keywords)
     begin
       if resp.code.match(/(2|3)0\d/)
-         regex = redis.get "regex_job_title"
+         regex = redis.get keywords
         if !Nokogiri::HTML(resp.body).text.match(/\b(#{regex})s?\b/i).nil?
         # redis.zadd "ny_jobs", Nokogiri::HTML(resp.body).text.downcase.scan(redis.get "regex_job_title")
           # redis.sadd "nyjobs", givenurl
-          p match = Nokogiri::HTML(resp.body).text.downcase.scan(/\b(#{regex})s?\b/i)
-          p match = match.uniq.flatten.sort.join(" ")
+          match = Nokogiri::HTML(resp.body).text.downcase.scan(/\b(#{regex})s?\b/i)
+          match = match.uniq.flatten.sort.join(" ")
           redis.hset hashname, givenurl, match
         end
       end

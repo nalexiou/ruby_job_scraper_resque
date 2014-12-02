@@ -21,12 +21,11 @@ post '/search' do
   redis.incr "mycounter"
   $uniqueid = redis.get "mycounter"
   $hashname = "nyjobhash#{$uniqueid.to_s}"
-  redis.del "nyjobs"
-  redis.set "keywords", params[:keywords]
-  keywords_array = (redis.get "keywords").scan(/'.*?'|".*?"|\S+/)
+  $keywords = "keywords#{$uniqueid.to_s}"
+  keywords_array = (params[:keywords]).scan(/'.*?'|".*?"|\S+/)
   keywords_regex = keywords_array.join("|")
   # redis.set "regex_job_title", /\b(#{keywords_regex})s?\b/i
-  redis.set "regex_job_title", keywords_regex
+  redis.set $keywords, keywords_regex
 
   # $careerlinksverified = []
 
@@ -37,7 +36,7 @@ post '/search' do
   redis.sadd "nytc", "https://nytm.org/made?list=true&page=#{id}"
   end
   (redis.smembers "nytc").each do |url|
-    Resque.enqueue(Response, url, 10, "grabnynytmhiring" )
+    Resque.enqueue(Response, url, 10, "grabnynytmhiring", "" )
   end
   sleep(3)
   @working = Resque.working
@@ -55,7 +54,7 @@ end
 
 post "/jobs" do
   (redis.smembers "nyhiring").each do |url|
-    Resque.enqueue(Response, url, 10, "findjobs", $hashname )
+    Resque.enqueue(Response, url, 10, "findjobs", $hashname, $keywords)
   end
   @working = Resque.working
   @nyhiringlist = redis.smembers "nyhiring"
