@@ -30,33 +30,7 @@
          <% end %>
         <% end %>
 	</tbody>
-</table>
-
-
-  <div class="span8">
-    <!-- This is table layout is pulled directly from twitter bootstrap -->
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Company website</th>
-            <th>Keyword(s) searched: <%= @keywords_regex %></th>
-          </tr>
-        </thead>
-        <tbody>
-      <% if !@nyjobs.nil? then  %>
-  		<% @nyjobs.each do |data| %>	
-          	<tr>
-            <td> 
-              <a href="<%= data[0] %>" target ="_blank"><%= data[0] %>
-        </a>
-            </td>
-            <td><%= data[1] %>
-          </tr>
-         <% end %>
-        <% end %>
-       </tbody>
-     </table>
-   </div>
-  </body>
+  </table>
+ </body>
 </html>
 
