@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href=" <%= url('/results.css') %>">
+  </head>
+  <body>
+<% unless @working.length == 0 %>
+ <h2>Still searching websites...</h2>	
+<% end %>
+
+<h1><span class="blue">&lt;</span>Job<span class="blue">&gt;</span> <span class="yellow">Results</pan></h1>
+
+<table class="container">
+	<thead>
+		<tr>
+			<th><h1>Sites</h1></th>
+			<th><h1>Keywords</h1></th>
+		</tr>
+	</thead>
+	<tbody>
+      <% if !@nyjobs.nil? then  %>
+  		<% @nyjobs.each do |data| %>	
+          	<tr>
+            <td> 
+              <a href="<%= data[0] %>" target ="_blank"><%= data[0] %></a>
+            </td>
+            <td><%= data[1] %></td>
+          </tr>
+         <% end %>
+        <% end %>
+	</tbody>
+</table>
+
+
+  <div class="span8">
+    <!-- This is table layout is pulled directly from twitter bootstrap -->
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Company website</th>
+            <th>Keyword(s) searched: <%= @keywords_regex %></th>
+          </tr>
+        </thead>
+        <tbody>
+      <% if !@nyjobs.nil? then  %>
+  		<% @nyjobs.each do |data| %>	
+          	<tr>
+            <td> 
+              <a href="<%= data[0] %>" target ="_blank"><%= data[0] %>
+        </a>
+            </td>
+            <td><%= data[1] %>
+          </tr>
+         <% end %>
+        <% end %>
+       </tbody>
+     </table>
+   </div>
+  </body>
+</html>
+

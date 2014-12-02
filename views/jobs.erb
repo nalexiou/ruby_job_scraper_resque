@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Refresh" content="3">
+<script type="text/javascript">
+	function myFunction() {
+    window.location.replace('/results');}
+	if (<%= @working.length %> == 0 ) { myFunction();}
+</script>
+<link rel="stylesheet" href=" <%= url('/styles.css') %>">
+</head>
+<body>
+<% unless @working.length == 0 %>
+ <div>Searching <%= @nyhiringlist.count if !@nyhiringlist.nil? %> websites...</div>	
+<% end %>
+</body>
+</html>

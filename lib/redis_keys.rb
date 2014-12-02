@@ -1,3 +1,11 @@
+def career_url_list
+	"career_urls"
+end
+
+def keyword_list
+	"keywords"
+end
+
 def s3_originals_key
   "s3_originals"
 end
