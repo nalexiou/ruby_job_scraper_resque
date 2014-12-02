@@ -5,7 +5,7 @@
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"> </script>
 <script type="text/javascript">
 	if (<%= @working.length %> == 0 ) {
-	 $.ajax({type: "POST", url: '/jobs', data: { keywords: <%= "'#{redis.get "keywords"}'"%>} }).done(function(data) {
+	 $.ajax({type: "POST", url: '/jobs', data: { keywords: <%= "'#{$keywords}'"%>} }).done(function(data) {
 	 	window.location.replace('/jobs');
 	 });}
 	</script>

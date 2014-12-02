@@ -7,7 +7,7 @@
 	<link rel="stylesheet" href=" <%= url('/styles.css') %>">
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"> </script>
 	<script type="text/javascript">
-	 $.ajax({type: "POST", url: '/results', data: { keywords: <%= "'#{redis.get "keywords"}'"%>} }).done(function(data) {
+	 $.ajax({type: "POST", url: '/results'} }).done(function(data) {
 	 	$("#c").remove();
 	 	$("#results").html(data);
 	 });
